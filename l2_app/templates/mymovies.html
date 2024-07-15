@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 32px;
+            margin: 0;
+        }
+        .movie {
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+        }
+        .movie:last-child {
+            border-bottom: none;
+        }
+        .movie h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .movie p {
+            margin: 5px 0;
+        }
+        .movie .director,
+        .movie .year {
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Movie List</h1>
+        </div>
+        <div class="movie">
+            {% for movie in my_movie_list %}
+            <h2><a href="/mymovies/{{movie.lower_case_title}}/script">{{movie.title}}</a></h2>
+            <p class="director">Director: {{movie.director}}</p>
+            <p class="year">Release Year: {{movie.year}}</p>
+            <p class="description">{{movie.description}}</p>
+            {% endfor %}
+            <!-- <h2>Inception</h2>
+            <p class="director">Director: Christopher Nolan</p>
+            <p class="year">Release Year: 2010</p>
+            <p class="description">A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.</p> -->
+        </div>
+    </div>
+</body>
+</html>
