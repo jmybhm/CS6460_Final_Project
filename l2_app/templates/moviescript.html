@@ -3,16 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Display Text File</title>
+    <title>Message Post and Reply System</title>
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        .text-document, .message-board {
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .text-document {
+            width: 60%;
+            border-right: 1px solid #ccc;
+        }
+        .message-board {
+            width: 40%;
+        }
+        .post, .reply {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .reply {
+            margin-left: 20px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Text File Content</h1>
+
+<div class="container">
+    <div class="text-document">
+        <h1>{{ movie_name }} </h1>
+        <p> {{ content }}</p>
+    </div>
+    <div class="Discussion Questions">
+        <h1>Discussion Questions</h1>
+        <div>
+            <form id="postForm">
+                <textarea id="postContent" placeholder="Write a message..." required></textarea><br>
+                <button type="submit">Post</button>
+            </form>
         </div>
-        <div class="content">
-            <p>{{ content }}</p>
+        <div id="postsContainer">
+            <!-- Posts will appear here -->
         </div>
     </div>
-</body>s
+</div>
+
+<script>
+    document.getElementById('postForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get the post content
+        const postContent = document.getElementById('postContent').value;
+        
+        // Create a new post element
+        const post = document.createElement('div');
+        post.className = 'post';
+        post.innerHTML = `
+            <p>${postContent}</p>
+            <button onclick="reply(this)">Reply</button>
+            <div class="replies"></div>
+        `;
+        
+        // Add the post to the posts container
+        document.getElementById('postsContainer').appendChild(post);
+        
+        // Clear the textarea
+        document.getElementById('postContent').value = '';
+    });
+
+    function reply(button) {
+        // Create a reply form
+        const replyForm = document.createElement('form');
+        replyForm.innerHTML = `
+            <textarea placeholder="Write a reply..." required></textarea><br>
+            <button type="submit">Reply</button>
+        `;
+        
+        // Handle reply form submission
+        replyForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get the reply content
+            const replyContent = this.querySelector('textarea').value;
+            
+            // Create a new reply element
+            const reply = document.createElement('div');
+            reply.className = 'reply';
+            reply.innerHTML = `<p>${replyContent}</p>`;
+            
+            // Add the reply to the post
+            button.nextElementSibling.appendChild(reply);
+            
+            // Remove the reply form
+            this.remove();
+        });
+
+        // Add the reply form below the post
+        button.parentNode.appendChild(replyForm);
+    }
+</script>
+
+</body>
 </html>
